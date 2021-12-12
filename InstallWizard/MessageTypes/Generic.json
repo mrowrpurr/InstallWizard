@@ -1,17 +1,17 @@
 {
-    "message": "__formData|0x803|InstallWizard.esp",
-    "text": "__formData|0x800|InstallWizard.esp",
+    "message": { "formId": "0x803", "plugin": "InstallWizard.esp" },
+    "text": { "formId": "0x800", "plugin": "InstallWizard.esp" },
     "buttons": ["Back", "Yes", "No", "Ok", "Install", "Continue", "Default", "Next", "Cancel", "Exit"],
     "toggles": {
-        "Back": "__formData|0x802|InstallWizard.esp",
-        "Yes": "__formData|0x804|InstallWizard.esp",
-        "No": "__formData|0x805|InstallWizard.esp",
-        "Ok": "__formData|0x806|InstallWizard.esp",
-        "Install": "__formData|0x807|InstallWizard.esp",
-        "Continue": "__formData|0x808|InstallWizard.esp",
-        "Default": "__formData|0x809|InstallWizard.esp",
-        "Next": "__formData|0x80A|InstallWizard.esp",
-        "Cancel": "__formData|0x80B|InstallWizard.esp",
-        "Exit": "__formData|0x80C|InstallWizard.esp"
+        "Back": { "formId": "0x802", "plugin": "InstallWizard.esp" },
+        "Yes": { "formId": "0x804", "plugin": "InstallWizard.esp" },
+        "No": { "formId": "0x805", "plugin": "InstallWizard.esp" },
+        "Ok": { "formId": "0x806", "plugin": "InstallWizard.esp" },
+        "Install": { "formId": "0x807", "plugin": "InstallWizard.esp" },
+        "Continue": { "formId": "0x808", "plugin": "InstallWizard.esp" },
+        "Default": { "formId": "0x809", "plugin": "InstallWizard.esp" },
+        "Next": { "formId": "0x80A", "plugin": "InstallWizard.esp" },
+        "Cancel": { "formId": "0x80B", "plugin": "InstallWizard.esp" },
+        "Exit": { "formId": "0x80C", "plugin": "InstallWizard.esp" }
     }
 }

@@ -1,29 +1,31 @@
 import { Debug } from 'skyrimPlatform'
+import InstallMessage from './InstallMessage'
 
-interface InstallStepConfig {
-    type: string
+interface InstallStepProps {
+    type?: string
     text?: string
     buttons?: Map<string, string>
 }
 
 export default class InstallStep {
-    public static loadFromConfig(config: InstallStepConfig) {
-        if (this.isValidStepConfig(config)) {
-            return new InstallStep(config.type)
-        }
+    public static async execute(props: InstallStepProps) {
+        return new InstallStep(props).execute()
     }
 
-    static isValidStepConfig(object: any): object is InstallStepConfig {
-        return object.type !== undefined
-    }
+    public type = 'Generic'
+    public text = ''
+    public buttons = new Map<string, string>()
 
-    public type: string
-
-    constructor(type: string) {
-        this.type = type
+    constructor(props: InstallStepProps) {
+        if (props.type) this.type = props.type
+        if (props.text) this.text = props.text
+        if (props.buttons)
+            Object.entries(props.buttons).forEach(([key, value]) => {
+                this.buttons.set(key, value)
+            })
     }
 
     public async execute() {
-
+        InstallMessage.show(this.type, this.text)
     }
 }

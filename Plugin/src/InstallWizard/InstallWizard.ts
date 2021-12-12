@@ -21,15 +21,10 @@ export default class InstallWizard {
     public async executeStep(stepFilename: string) {
         const stepJson = MiscUtil.ReadFromFile(`${this.folder}/${stepFilename}`)
         try {
-            const stepConfig = JSON.parse(stepJson)
-            const step = InstallStep.loadFromConfig(stepConfig)
-            if (step) {
-                const result = await step.execute()
-                Debug.messageBox(`RESULT OF Running ${stepFilename} is: ${JSON.stringify(result)}`)
-            }
+            const result = await InstallStep.execute(JSON.parse(stepJson))
         } catch (e) {
             if (e instanceof SyntaxError)
-                Debug.messageBox(`Invalid JSON for ${this.name} installation step ${stepFilename}`)
+                Debug.messageBox(`Invalid JSON for ${this.name} InstallWizard installation step ${stepFilename}`)
         }
     }
 
