@@ -1,4 +1,5 @@
 import { Debug } from 'skyrimPlatform'
+import InstallAction from './InstallAction'
 import InstallMessage from './InstallMessage'
 
 interface InstallStepProps {
@@ -8,15 +9,17 @@ interface InstallStepProps {
 }
 
 export default class InstallStep {
-    public static async execute(props: InstallStepProps) {
-        return new InstallStep(props).execute()
+    public static async execute(wizardName: string, props: InstallStepProps) {
+        return new InstallStep(wizardName, props).execute()
     }
 
+    wizardName: string
     public type = 'Generic'
     public text = ''
     public buttons = new Map<string, string>()
 
-    constructor(props: InstallStepProps) {
+    constructor(wizardName: string, props: InstallStepProps) {
+        this.wizardName = wizardName
         if (props.type) this.type = props.type
         if (props.text) this.text = props.text
         if (props.buttons)
@@ -27,6 +30,11 @@ export default class InstallStep {
 
     public async execute() {
         const selectedButton = await InstallMessage.show(this.type, this.text, Array.from(this.buttons.keys()))
-        Debug.messageBox(`SELECTED BUTTON: ${selectedButton}`)
+        if (selectedButton) {
+            const actionName = this.buttons.get(selectedButton)
+            if (actionName)
+                return InstallAction.perform(this.wizardName, actionName)
+        }
+        return
     }
 }

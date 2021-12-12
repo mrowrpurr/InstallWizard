@@ -1,5 +1,6 @@
 import InstallWizard from './InstallWizard'
 import * as MiscUtil from 'PapyrusUtil/MiscUtil'
+import { Debug } from 'skyrimPlatform'
 
 export default class InstallWizardEnvironment {
     public static boot(rootFolder = 'Data/InstallWizard') {

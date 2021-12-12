@@ -48,7 +48,6 @@ export default class InstallMessage {
                     })
                     if (buttons && messageTypeConfig.toggles) {
                         for (let buttonName of buttons) {
-                            printConsole(buttonName)
                             const buttonVariable = toggles.get(buttonName)
                             if (buttonVariable) {
                                 if (buttonVariable) buttonVariable.setValue(1)

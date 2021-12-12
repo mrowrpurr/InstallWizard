@@ -3,32 +3,60 @@ import { Debug } from 'skyrimPlatform'
 import * as MiscUtil from 'PapyrusUtil/MiscUtil'
 
 export default class InstallWizard {
-    _currentStep = ''
-    public name: string
-    public folder: string
+    private _currentStep = -1
+    private _stepFilenames: string[] | null = null
+    name: string
+    folder: string
 
     constructor(name: string, folder: string) {
         this.name = name
         this.folder = folder
     }    
 
-    public start() {
-        const stepFilenames = this.getStepFilenames()
-        if (stepFilenames && stepFilenames.length)
-            this.executeStep(stepFilenames[0])
+    start() {
+        this._stepFilenames = this.getStepFilenames()
+        if (this._stepFilenames && this._stepFilenames.length) {
+            this.nextStep()
+        }
     }
 
-    public async executeStep(stepFilename: string) {
+    nextStep() {
+        if (this._stepFilenames) {
+            this._currentStep++
+            if (this._currentStep < this._stepFilenames.length - 1) {
+                const nextStep = this._stepFilenames[this._currentStep]
+                this.executeStep(nextStep)
+            }
+        }
+    }
+
+    async executeStep(stepFilename: string) {
         const stepJson = MiscUtil.ReadFromFile(`${this.folder}/${stepFilename}`)
         try {
-            const result = await InstallStep.execute(JSON.parse(stepJson))
+            const result = await InstallStep.execute(this.name, JSON.parse(stepJson))
+            if (result) {
+                switch (result.nextStep) {
+                    case 'next': {
+                        this.nextStep()
+                        break
+                    }
+                    case 'wait': {
+                        // Nothing, we need to wait for an operation to be performed
+                        break
+                    }
+                    default: {
+                        Debug.messageBox(`Jeepers creepers! I don't know how to handle the 'next step' ${result.nextStep}`)
+                        break
+                    }
+                }
+            }
         } catch (e) {
             if (e instanceof SyntaxError)
                 Debug.messageBox(`Invalid JSON for ${this.name} InstallWizard installation step ${stepFilename}`)
         }
     }
 
-    public getStepFilenames() {
+    private getStepFilenames() {
         return MiscUtil.FilesInFolder(this.folder)
     }
 }
