@@ -26,6 +26,6 @@ export default class InstallStep {
     }
 
     public async execute() {
-        InstallMessage.show(this.type, this.text)
+        InstallMessage.show(this.type, this.text, Array.from(this.buttons.keys()))
     }
 }
