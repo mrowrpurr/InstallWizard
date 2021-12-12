@@ -1,0 +1,17 @@
+{
+    "message": "__formData|0x803|InstallWizard.esp",
+    "text": "__formData|0x800|InstallWizard.esp",
+    "buttons": ["Back", "Yes", "No", "Ok", "Install", "Continue", "Default", "Next", "Cancel", "Exit"],
+    "toggles": {
+        "Back": "__formData|0x802|InstallWizard.esp",
+        "Yes": "__formData|0x804|InstallWizard.esp",
+        "No": "__formData|0x805|InstallWizard.esp",
+        "Ok": "__formData|0x806|InstallWizard.esp",
+        "Install": "__formData|0x807|InstallWizard.esp",
+        "Continue": "__formData|0x808|InstallWizard.esp",
+        "Default": "__formData|0x809|InstallWizard.esp",
+        "Next": "__formData|0x80A|InstallWizard.esp",
+        "Cancel": "__formData|0x80B|InstallWizard.esp",
+        "Exit": "__formData|0x80C|InstallWizard.esp"
+    }
+}
