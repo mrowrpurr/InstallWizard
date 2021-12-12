@@ -1,10 +1,10 @@
 import InstallWizard from './InstallWizard'
 import * as MiscUtil from 'PapyrusUtil/MiscUtil'
-import { Debug } from 'skyrimPlatform'
+import { Debug, once } from 'skyrimPlatform'
 
 export default class InstallWizardEnvironment {
     public static boot(rootFolder = 'Data/InstallWizard') {
-        new InstallWizardEnvironment(rootFolder).run()
+        new InstallWizardEnvironment(rootFolder).runAfterRacemenu()
     }
     
     _loaded = false
@@ -18,6 +18,15 @@ export default class InstallWizardEnvironment {
         this.startupFolder = `${rootFolder}/Startup`
         this.messageTypesFolder = `${rootFolder}/MessageTypes`
         this.wizardDefinitionsFolder = `${rootFolder}/Wizards`
+    }
+
+    runAfterRacemenu() {
+        once('menuClose', menu => {
+            if (menu.name == 'RaceSex Menu')
+                this.run()
+            else
+                this.runAfterRacemenu()
+        })
     }
 
     public run() {
