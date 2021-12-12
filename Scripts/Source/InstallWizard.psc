@@ -8,6 +8,7 @@ event OnSetup()
 endEvent
 
 event OnWizardInit()
+    
 endEvent
 
 function HandleEvent(string eventName, string handler = "")

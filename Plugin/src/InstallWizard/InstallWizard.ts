@@ -28,7 +28,7 @@ export default class InstallWizard {
     nextStep() {
         if (this._stepFilenames) {
             this._currentStep++
-            if (this._currentStep < this._stepFilenames.length - 1) {
+            if (this._currentStep < this._stepFilenames.length) {
                 const nextStep = this._stepFilenames[this._currentStep]
                 this.executeStep(nextStep)
             } else {
