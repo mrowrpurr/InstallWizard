@@ -14,7 +14,7 @@ export default class InstallStep {
     }
 
     wizardName: string
-    public type = 'Generic'
+    public type = 'generic'
     public text = ''
     public buttons = new Map<string, string>()
 

@@ -1,9 +1,16 @@
 import InstallWizard from './InstallWizard'
 import * as MiscUtil from 'PapyrusUtil/MiscUtil'
 import { Debug, once } from 'skyrimPlatform'
+import { getConnection } from 'papyrusBridge'
 
 export default class InstallWizardEnvironment {
+    static currentlyInstallingWizard: InstallWizard
+
     public static boot(rootFolder = 'Data/InstallWizard') {
+        getConnection('InstallWizard').onEvent(event => {
+            if (this.currentlyInstallingWizard)
+                this.currentlyInstallingWizard.nextStep()
+        })
         new InstallWizardEnvironment(rootFolder).runAfterRacemenu()
     }
     
@@ -29,15 +36,18 @@ export default class InstallWizardEnvironment {
         })
     }
 
-    public run() {
+    async run() {
         // XXX - This doesn't actually make sense.
         //       Why would we start multiple at once?
         //       We should start the first and THEN the second... and so on...
         const startupWizards = this.getStartupWizardNames()
         if (startupWizards) {
             for (let wizardName of startupWizards)
-                if (MiscUtil.FileExists(`${this.wizardDefinitionsFolder}/${wizardName}`))
-                    this.getWizard(wizardName, `${this.wizardDefinitionsFolder}/${wizardName}`).start()
+                if (MiscUtil.FileExists(`${this.wizardDefinitionsFolder}/${wizardName}`)) {
+                    const wizard = this.getWizard(wizardName, `${this.wizardDefinitionsFolder}/${wizardName}`)
+                    InstallWizardEnvironment.currentlyInstallingWizard = wizard
+                    await wizard.install()
+                }
         }
     }
 

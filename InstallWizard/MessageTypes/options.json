@@ -1,0 +1,17 @@
+{
+    "message": { "formId": "0x80d", "plugin": "InstallWizard.esp" },
+    "text": { "formId": "0x800", "plugin": "InstallWizard.esp" },
+    "buttons": ["back", "1", "2", "3", "4", "5", "6", "default", "next", "exit"],
+    "toggles": {
+        "back": { "formId": "0x802", "plugin": "InstallWizard.esp" },
+        "1": { "formId": "0x80e", "plugin": "InstallWizard.esp" },
+        "2": { "formId": "0x80f", "plugin": "InstallWizard.esp" },
+        "3": { "formId": "0x810", "plugin": "InstallWizard.esp" },
+        "4": { "formId": "0x811", "plugin": "InstallWizard.esp" },
+        "5": { "formId": "0x812", "plugin": "InstallWizard.esp" },
+        "6": { "formId": "0x813", "plugin": "InstallWizard.esp" },
+        "default": { "formId": "0x80A", "plugin": "InstallWizard.esp" },
+        "next": { "formId": "0x80B", "plugin": "InstallWizard.esp" },
+        "exit": { "formId": "0x80C", "plugin": "InstallWizard.esp" }
+    }
+}

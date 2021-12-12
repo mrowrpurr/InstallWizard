@@ -1,19 +1,16 @@
-scriptName InstallWizard extends Quest
+scriptName InstallWizard extends SkyrimPlatformConnection
 
 string property WizardName auto
 
-event OnInit()
-    OnSetup()
-endEvent
-
 event OnSetup()
+    ConnectionName = "InstallWizard"
+    OnWizardInit()
 endEvent
 
-function HandleEvent(string eventName)
-    OnEvent(eventName)
-endFunction
+event OnWizardInit()
+endEvent
 
-function OnEvent(string eventName, string handler = "")
+function HandleEvent(string eventName, string handler = "")
     if ! handler
         handler = eventName
     endIf
@@ -26,4 +23,8 @@ string function GetFullEventName(string eventName)
     else
         return eventName
     endIf
+endFunction
+
+function NextStep()
+    Send("NextStep", WizardName)
 endFunction

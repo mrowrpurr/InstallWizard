@@ -7,17 +7,22 @@ export default class InstallWizard {
     private _stepFilenames: string[] | null = null
     name: string
     folder: string
+    completedCallback?: () => void
 
     constructor(name: string, folder: string) {
         this.name = name
         this.folder = folder
     }    
 
-    start() {
-        this._stepFilenames = this.getStepFilenames()
-        if (this._stepFilenames && this._stepFilenames.length) {
-            this.nextStep()
-        }
+    async install(): Promise<void> {
+        return new Promise<void>(resolve => {
+            this.completedCallback = resolve
+            this._stepFilenames = this.getStepFilenames()
+            if (this._stepFilenames && this._stepFilenames.length)
+                this.nextStep()
+            else
+                resolve()
+        })
     }
 
     nextStep() {
@@ -26,6 +31,8 @@ export default class InstallWizard {
             if (this._currentStep < this._stepFilenames.length - 1) {
                 const nextStep = this._stepFilenames[this._currentStep]
                 this.executeStep(nextStep)
+            } else {
+                this.completedCallback!()
             }
         }
     }

@@ -38,19 +38,21 @@ export default class InstallMessage {
                     }
 
                     // Buttons
-                    const toggles = new Map<string, GlobalVariable>()
-                    Object.entries<FormReference>(messageTypeConfig.toggles).forEach(([key, value]) => {
-                        const variable = GlobalVariable.from(formReferenceToForm(value))  
-                        if (variable) {
-                            toggles.set(key, variable)
-                            variable.setValue(0)
-                        }
-                    })
-                    if (buttons && messageTypeConfig.toggles) {
-                        for (let buttonName of buttons) {
-                            const buttonVariable = toggles.get(buttonName)
-                            if (buttonVariable) {
-                                if (buttonVariable) buttonVariable.setValue(1)
+                    if (messageTypeConfig.toggles) {
+                        const toggles = new Map<string, GlobalVariable>()
+                        Object.entries<FormReference>(messageTypeConfig.toggles).forEach(([key, value]) => {
+                            const variable = GlobalVariable.from(formReferenceToForm(value))  
+                            if (variable) {
+                                toggles.set(key, variable)
+                                variable.setValue(0)
+                            }
+                        })
+                        if (buttons && messageTypeConfig.toggles) {
+                            for (let buttonName of buttons) {
+                                const buttonVariable = toggles.get(buttonName)
+                                if (buttonVariable) {
+                                    if (buttonVariable) buttonVariable.setValue(1)
+                                }
                             }
                         }
                     }

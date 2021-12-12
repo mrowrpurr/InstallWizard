@@ -16,6 +16,7 @@ export default class InstallAction {
                 const modEvent = (sp as any).ModEvent
                 const handle = modEvent.Create(`${wizardName}_${name}`)
                 modEvent.Send(handle)
+                sp.printConsole(`[InstallWizard] ${wizardName}_${name}`)
                 return { nextStep: 'wait' }
                 break
             }
