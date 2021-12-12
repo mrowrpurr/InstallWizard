@@ -26,6 +26,7 @@ export default class InstallStep {
     }
 
     public async execute() {
-        InstallMessage.show(this.type, this.text, Array.from(this.buttons.keys()))
+        const selectedButton = await InstallMessage.show(this.type, this.text, Array.from(this.buttons.keys()))
+        Debug.messageBox(`SELECTED BUTTON: ${selectedButton}`)
     }
 }

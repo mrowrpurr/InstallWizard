@@ -21,7 +21,7 @@ export default class InstallMessage {
     // TODO XXX make InstallWizard rootFolder not configurable? OR make this configurable...
     static messageTypesFolder = 'Data/InstallWizard/MessageTypes'
 
-    public static show(type: string, text?: string, buttons?: string[]) {
+    public static async show(type: string, text?: string, buttons?: string[]): Promise<string | undefined> {
         if (this.exists(type)) {
             const messageTypeJson = MiscUtil.ReadFromFile(`${this.messageTypesFolder}/${type}.json`)
             try {
@@ -29,40 +29,35 @@ export default class InstallMessage {
                 
                 // Get Message
                 const message = Message.from(formReferenceToForm(messageTypeConfig.message))
-                
-                // Set Text
-                if (text && messageTypeConfig.text) {
-                    const textForm = formReferenceToForm(messageTypeConfig.text)
-                    if (textForm) textForm.setName(text)
-                }
-                
-                // Set Buttons
-                // First disable toggles
-                // TODO
-                // Then turn on the ones associate with the requested buttons
+                if (message) {
 
-                const toggles = new Map<string, GlobalVariable>()
-                Object.entries<FormReference>(messageTypeConfig.toggles).forEach(([key, value]) => {
-                    const variable = GlobalVariable.from(formReferenceToForm(value))  
-                    if (variable) {
-                        toggles.set(key, variable)
-                        variable.setValue(0)
+                    // Set Text
+                    if (text && messageTypeConfig.text) {
+                        const textForm = formReferenceToForm(messageTypeConfig.text)
+                        if (textForm) textForm.setName(text)
                     }
-                })
 
-                if (buttons && messageTypeConfig.toggles) {
-                    for (let buttonName of buttons) {
-                        printConsole(buttonName)
-                        const buttonVariable = toggles.get(buttonName)
-                        if (buttonVariable) {
-                            if (buttonVariable) buttonVariable.setValue(1)
+                    // Buttons
+                    const toggles = new Map<string, GlobalVariable>()
+                    Object.entries<FormReference>(messageTypeConfig.toggles).forEach(([key, value]) => {
+                        const variable = GlobalVariable.from(formReferenceToForm(value))  
+                        if (variable) {
+                            toggles.set(key, variable)
+                            variable.setValue(0)
+                        }
+                    })
+                    if (buttons && messageTypeConfig.toggles) {
+                        for (let buttonName of buttons) {
+                            printConsole(buttonName)
+                            const buttonVariable = toggles.get(buttonName)
+                            if (buttonVariable) {
+                                if (buttonVariable) buttonVariable.setValue(1)
+                            }
                         }
                     }
-                }
 
-                if (message) {
-                    const installMessage = new InstallMessage(message)
-                    installMessage.show()
+                    const resultIndex = await message.show(0, 0, 0, 0, 0, 0, 0, 0, 0)
+                    return messageTypeConfig.buttons[resultIndex]
                 }
             } catch (e) {
                 if (e instanceof SyntaxError)
@@ -75,13 +70,9 @@ export default class InstallMessage {
         return MiscUtil.FileExists(`${this.messageTypesFolder}/${type}.json`)
     }
 
-    public message: Message
+    // public message: Message
 
-    constructor(message: Message) {
-        this.message = message
-    }
-
-    public show() {
-        this.message.show(0, 0, 0, 0, 0, 0, 0, 0, 0)
-    }
+    // constructor(message: Message) {
+    //     this.message = message
+    // }
 }
